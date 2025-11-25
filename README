@@ -1,0 +1,64 @@
+STEPS ON HOW TO SETUP POSTGRESQL ON MY PC
+
+STEP ONE INSTALL PG
+
+NPM install pg
+
+SET UP FOR CLIENT
+
+CONST {CLIENT} = require('pg');
+
+CONST client = new CLIENT({
+host: 'localhost',
+user: 'postgres',
+port: 5432,
+password: 'root1234',
+database: 'dvdrental',
+})
+
+STEP TWO CONNECT TO DATABASE
+
+client.connect((err) => {
+if (err) {
+console.log(err);
+} else {
+console.log('connected to database');
+}
+})
+
+OR
+
+client.connect().then(()=>console.log('connected to database'))
+
+HOW TO CREATE TABLE
+const UserTable = `
+CREATE TABLE IF NOT EXISTS actor(
+    actor_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(45) NOT NULL,
+    last_name VARCHAR(45) NOT NULL,
+    last_update TIMESTAMP NOT NULL
+)`
+
+client.query(UserTable, (err, res) => {
+if (err) {
+console.log(err);
+} else {
+console.log('table created');
+}
+})
+
+HOW TO QUERY TABLE
+client.query('SELECT \* FROM actor', (err, res) => {
+if (err) {
+console.log(err);
+} else {
+console.log(res.rows);
+}
+client.end();
+})
+
+INSERT INTO actor (actor_id, first_name, last_name, last_update)
+VALUES (1, 'chigozie', 'emma', '2024-01-01 12:00:00');
+
+STEP THREE CLOSE CONNECTION
+client.end();
