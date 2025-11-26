@@ -1,32 +1,25 @@
 const express = require("express");
-const db = require("./postgesdb");
 const app = express();
 const port = 3300;
+const Routes = require("./Router/Router");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "70mb" }));
 
-app.get("/", async (req, res) => {
-  const data = await db.query("SELECT * FROM rental");
-  const names = data.rows;
-  res.send(names);
-  res.end();
-  db.end();
-});
+// Handle preflight OPTIONS
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-app.post("/post", (req, res) => {
-  const data = req.body;
-  if (!data) {
-    return res.status(400).send("No data provided");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
   }
 
-  try {
-    // send data to external service/database
-    res.status(200).send("Data received successfully");
-  } catch (error) {
-    res.status(500).send("Error processing data");
-  }
+  next();
 });
+
+// Attach routes
+app.use(Routes);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

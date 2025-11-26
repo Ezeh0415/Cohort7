@@ -5,7 +5,7 @@ const db = new Client({
   user: "postgres",
   port: 5432,
   password: "ezeanwe3942",
-  database: "dvdrental",
+  database: "cohort7",
 });
 
 db.connect()
@@ -13,19 +13,3 @@ db.connect()
   .catch((err) => console.error("DB error:", err));
 
 module.exports = db;
-
-// const { Client } = require("pg");
-
-// const db = new Client({
-//   host: "127.0.0.1",
-//   user: "postgres",
-//   port: 5432,
-//   password: "ezeanwe3942",
-//   database: "dvdrental",
-// });
-
-// db.connect()
-//   .then(() => console.log("DB connected"))
-//   .catch((err) => console.error("DB error:", err));
-
-// module.exports = db;
