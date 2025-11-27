@@ -4,19 +4,19 @@ const sanitizeHtml = require("sanitize-html");
 const UpdateUser = async (req, res) => {
   const { email, address } = req.body;
 
-  if ((!email, address)) {
-    res.status(400).json({ message: "Please provide all values" });
+  if (!email || !address) {
+    return res.status(400).json({ message: "Please provide all values" });
   }
 
   try {
     const result = await db.query(
-      "UPDATE users SET  address = $2 WHERE email = $3 RETURNING *",
+      "UPDATE users SET  name = $1 WHERE email = $2 RETURNING *",
       [sanitizeHtml(address), sanitizeHtml(email)]
     );
-    res.json(result.rows[0]);
     db.end();
+    return res.json(result.rows[0]);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 

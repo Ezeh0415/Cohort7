@@ -77,3 +77,8 @@ client.end();
 // "UPDATE users SET phone = NULL WHERE id = $1",
 // [id]
 // );
+
+<!-- ALTER TABLE users
+ADD COLUMN dob DATE DEFAULT NULL,
+ADD COLUMN profileImage TEXT DEFAULT NULL;
+ -->
